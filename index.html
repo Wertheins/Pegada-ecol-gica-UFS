@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de Pegada Ecológica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="hero">
+        <p class="eyebrow">Campus São Cristóvão • Ano-base configurável</p>
+        <h1>Calculadora de Pegada Ecológica</h1>
+        <p>
+          Preencha os consumos por categoria, ajuste fatores de emissão quando
+          necessário e veja o consolidado em emissões, hectares e hectares
+          globais.
+        </p>
+      </header>
+
+      <section class="panel panel-grid">
+        <div class="field">
+          <label for="baseYear">Ano-base</label>
+          <input id="baseYear" type="number" min="1900" step="1" value="2024" />
+        </div>
+        <div class="field">
+          <label for="unitName">Unidade</label>
+          <input id="unitName" type="text" value="Campus São Cristóvão" />
+        </div>
+        <div class="field">
+          <label for="absorptionFactor">Absorção de CO₂ (t/ha/ano)</label>
+          <input
+            id="absorptionFactor"
+            type="number"
+            min="0.0001"
+            step="0.0001"
+            value="6.27"
+          />
+        </div>
+        <div class="field">
+          <label for="equivalenceFactor">Fator de equivalência (FEq)</label>
+          <input
+            id="equivalenceFactor"
+            type="number"
+            min="0.0001"
+            step="0.0001"
+            value="1.37"
+          />
+        </div>
+        <div class="field">
+          <label for="population">População (opcional)</label>
+          <input
+            id="population"
+            type="number"
+            min="0"
+            step="1"
+            value="22804"
+            placeholder="Ex.: 15000"
+          />
+        </div>
+        <div class="field checkbox-field">
+          <label for="useGha">Exibir pegada consolidada em gha</label>
+          <input id="useGha" type="checkbox" checked />
+        </div>
+        <div class="actions">
+          <button type="button" id="addCategoryButton">Adicionar categoria</button>
+          <button type="button" id="resetButton" class="ghost">
+            Limpar consumos
+          </button>
+          <button type="button" id="exportButton" class="ghost">
+            Exportar Excel
+          </button>
+          <button type="button" id="exportJsonButton" class="ghost">
+            Exportar JSON
+          </button>
+          <button type="button" id="importJsonButton" class="ghost">
+            Importar JSON
+          </button>
+          <input id="importJsonInput" type="file" accept=".json,application/json" hidden />
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="table-head">
+          <h2>Cálculo por categoria</h2>
+          <small>Emissão (kg CO₂) = Consumo × FE</small>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Ativar</th>
+                <th>Categoria</th>
+                <th>Consumo anual</th>
+                <th>Unidade</th>
+                <th>FE</th>
+                <th>Emissão (kg CO₂)</th>
+                <th>Emissão (t CO₂)</th>
+                <th>Área (ha/ano)</th>
+                <th>Pegada (gha/ano)</th>
+                <th>Base metodológica</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody id="categoriesBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel cards">
+        <article class="metric-card">
+          <p>Emissões totais</p>
+          <h3 id="totalEmission">0,00 t CO₂/ano</h3>
+        </article>
+        <article class="metric-card">
+          <p>Área total necessária</p>
+          <h3 id="totalArea">0,00 ha/ano</h3>
+        </article>
+        <article class="metric-card">
+          <p>Pegada total</p>
+          <h3 id="totalFootprint">0,00 gha/ano</h3>
+        </article>
+        <article class="metric-card">
+          <p>Pegada per capita</p>
+          <h3 id="perCapita">Informe a população</h3>
+        </article>
+      </section>
+
+      <section class="panel">
+        <h2>Participação por categoria</h2>
+        <div id="breakdown" class="breakdown"></div>
+      </section>
+
+      <section class="panel notice" id="warningBox" hidden></section>
+      <section class="panel info" id="saveInfo">
+        Dados salvos automaticamente no navegador deste dispositivo.
+      </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
