@@ -109,7 +109,18 @@ const formatNumber = (value, maxFraction = 2) =>
 const parseFieldNumber = (value) => {
   if (typeof value === "number") return value;
   if (value === null || value === undefined || value === "") return NaN;
-  return Number(String(value).replace(",", "."));
+  let raw = String(value).trim();
+  if (!raw) return NaN;
+
+  raw = raw.replace(/\s+/g, "");
+
+  // Aceita formatos com virgula decimal, incluindo milhares no padrao pt-BR:
+  // 1234,56 | 1.234,56 | 1234.56
+  if (raw.includes(",")) {
+    raw = raw.replace(/\./g, "").replace(/,/g, ".");
+  }
+
+  return Number(raw);
 };
 
 const safePositive = (value, fallback) => {
@@ -228,7 +239,7 @@ const rowTemplate = (category, metrics, index) => {
         <input class="row-name" data-index="${index}" type="text" value="${escapeAttr(category.name)}" />
       </td>
       <td>
-        <input class="row-input" data-index="${index}" type="number" min="0" step="any" value="${escapeAttr(
+        <input class="row-input" data-index="${index}" type="text" inputmode="decimal" value="${escapeAttr(
     category.consumption
   )}" placeholder="0" />
       </td>
@@ -236,7 +247,7 @@ const rowTemplate = (category, metrics, index) => {
         <input class="row-unit" data-index="${index}" type="text" value="${escapeAttr(category.unit)}" />
       </td>
       <td>
-        <input class="row-fe" data-index="${index}" type="number" min="0" step="any" value="${escapeAttr(
+        <input class="row-fe" data-index="${index}" type="text" inputmode="decimal" value="${escapeAttr(
     category.fe
   )}" placeholder="FE" />
       </td>
