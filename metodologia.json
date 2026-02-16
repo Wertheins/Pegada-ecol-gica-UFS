@@ -1,0 +1,291 @@
+{
+  "capitulo": {
+    "numero": 4,
+    "titulo": "METODOLOGIA",
+    "introducao": [
+      "Este capítulo apresenta os procedimentos metodológicos adotados para a estimativa da Pegada Ecológica do Campus São Cristóvão da Universidade Federal de Sergipe (UFS). A pesquisa fundamenta-se na metodologia desenvolvida por Wackernagel e Rees (1996), criadores do conceito de Pegada Ecológica, adotando como eixo central de análise a pegada de carbono, reconhecida como um dos principais componentes desse indicador.",
+      "A abordagem metodológica foi estruturada a partir da adaptação de estudos de caso aplicados em instituições de ensino superior, com destaque para os trabalhos de Amaral (2010), desenvolvido na Universidade de São Paulo (USP), e de Soares (2015), realizado na Universidade Tecnológica Federal do Paraná (UTFPR). Contudo, o presente estudo avança ao aplicar e ajustar essa metodologia à realidade específica do Campus São Cristóvão, incorporando suas particularidades físicas, ambientais e operacionais, bem como informações oficiais extraídas dos instrumentos institucionais de planejamento e gestão da UFS (UFS, 2024; UFS, 2025).",
+      "Dessa forma, a metodologia adotada busca não apenas quantificar a Pegada Ecológica institucional, mas também evidenciar o potencial desse indicador como ferramenta de diagnóstico e apoio à gestão ambiental universitária."
+    ],
+    "secoes": [
+      {
+        "id": "4.1",
+        "titulo": "Caracterização da Área de Estudo",
+        "conteudo": [
+          "As universidades, enquanto centros de ensino, pesquisa e extensão, caracterizam-se por intensa circulação de pessoas e elevado consumo de recursos naturais, assumindo dinâmicas semelhantes às de microcosmos urbanos (ALBA, 2006). Nesse contexto, a Universidade Federal de Sergipe (UFS) configura-se como a principal instituição pública de ensino superior do estado de Sergipe.",
+          "A UFS apresenta uma estrutura multicampi composta por seis unidades: Campus São Cristóvão, Campus Aracaju, Campus Itabaiana, Campus Laranjeiras, Campus Lagarto e Campus Glória. Em conjunto, essas unidades ofertam mais de uma centena de cursos de graduação e aproximadamente sessenta programas de pós-graduação.",
+          "O Campus São Cristóvão (Cidade Universitária Prof. José Aloísio de Campos) destaca-se como o maior e mais representativo. Inserido no município de São Cristóvão, possui área total de 778.681,39 m² (77,87 hectares), dos quais 192.000,00 m² (19,20 hectares) correspondem à área construída (UFS, 2025).",
+          "O espaço físico caracteriza-se por infraestrutura consolidada associada à presença de áreas verdes remanescentes de Mata Atlântica. As maiores parcelas dos recursos de investimentos foram direcionadas à construção e à conclusão de prédios.",
+          "A comunidade acadêmica considerada neste estudo é composta por estudantes, docentes e técnicos-administrativos ativos no ano de 2024."
+        ],
+        "tabelas": [
+          {
+            "id": "tabela_3",
+            "titulo": "Distribuição da comunidade acadêmica por campus da UFS (2024)",
+            "dados": [
+              {
+                "campus": "São Cristóvão / Aracaju",
+                "alunos_docentes": "1.303 + 20.300",
+                "tecnicos_administrativos": 1201,
+                "total": 22804,
+                "percentual": 75.7
+              },
+              {
+                "campus": "Lagarto",
+                "alunos_docentes": "190 + 2.900",
+                "tecnicos_administrativos": 120,
+                "total": 3210,
+                "percentual": 10.6
+              },
+              {
+                "campus": "Itabaiana",
+                "alunos_docentes": "135 + 2.300",
+                "tecnicos_administrativos": 32,
+                "total": 2467,
+                "percentual": 8.2
+              },
+              {
+                "campus": "Sertão (Glória)",
+                "alunos_docentes": "800 + 67",
+                "tecnicos_administrativos": 26,
+                "total": 893,
+                "percentual": 3.0
+              },
+              {
+                "campus": "Laranjeiras",
+                "alunos_docentes": "695 + 56",
+                "tecnicos_administrativos": 15,
+                "total": 766,
+                "percentual": 2.5
+              },
+              {
+                "campus": "Total Geral",
+                "alunos_docentes": "27.100 + 1.751",
+                "tecnicos_administrativos": 1394,
+                "total": 30140,
+                "percentual": 100.0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "4.2",
+        "titulo": "Período de Análise",
+        "conteudo": [
+          "O período adotado para a coleta e consolidação dos dados corresponde ao ano civil de janeiro a dezembro de 2024.",
+          "A escolha desse recorte temporal fundamenta-se na disponibilidade de dados institucionais completos e consolidados referentes ao exercício anual, permitindo maior confiabilidade na análise e evitando distorções decorrentes de registros parciais.",
+          "A utilização do ano civil integral possibilita a incorporação das variações sazonais associadas à rotina acadêmica e administrativa."
+        ]
+      },
+      {
+        "id": "4.3",
+        "titulo": "Parâmetros Analisados",
+        "conteudo": [
+          "Foram selecionados os principais fluxos de matéria e energia considerados representativos no contexto de instituições de ensino superior, conforme critérios metodológicos propostos por Amaral (2010) e Soares (2015).",
+          "Os parâmetros analisados compreenderam: Consumo de energia elétrica (kWh), Consumo de água (m³), Consumo de papel A4 (resmas e folhas), Infraestrutura e edificações (m²), Mobilidade e transporte institucional (combustíveis), Consumo de alimentos (refeições) e Geração de resíduos sólidos."
+        ],
+        "tabelas": [
+          {
+            "id": "tabela_4",
+            "titulo": "Lista de Dados Necessários para Estimativa da Pegada Ecológica do Campus São Cristóvão (UFS)",
+            "dados": [
+              {
+                "dado": "Consumo total de energia elétrica do campus",
+                "categoria": "Energia Elétrica",
+                "unidade": "kWh",
+                "frequencia": "Mensal",
+                "periodo": "Ano de 2024",
+                "responsavel": "Superintendência de Infraestrutura (INFRAUFS)"
+              },
+              {
+                "dado": "Consumo total de água do campus (via hidrômetros)",
+                "categoria": "Água",
+                "unidade": "m³",
+                "frequencia": "Mensal",
+                "periodo": "Ano de 2024",
+                "responsavel": "Superintendência de Infraestrutura (INFRAUFS)"
+              },
+              {
+                "dado": "Compra de papel sulfite A4 (virgem)",
+                "categoria": "Papel",
+                "unidade": "Resmas ou folhas",
+                "frequencia": "Mensal/Anual",
+                "periodo": "Ano de 2024",
+                "responsavel": "PROPLAN / DMP"
+              },
+              {
+                "dado": "Compra de papel sulfite A4 (reciclado)",
+                "categoria": "Papel",
+                "unidade": "Resmas ou folhas",
+                "frequencia": "Mensal/Anual",
+                "periodo": "Ano de 2024",
+                "responsavel": "PROPLAN / DMP"
+              },
+              {
+                "dado": "Área total do campus",
+                "categoria": "Infraestrutura",
+                "unidade": "m² ou hectares",
+                "frequencia": "Dado único",
+                "periodo": "-",
+                "responsavel": "INFRAUFS / COINFRA"
+              },
+              {
+                "dado": "Área total construída",
+                "categoria": "Infraestrutura",
+                "unidade": "m²",
+                "frequencia": "Dado único",
+                "periodo": "-",
+                "responsavel": "INFRAUFS / COINFRA"
+              },
+              {
+                "dado": "Consumo de gasolina (frota UFS)",
+                "categoria": "Transporte",
+                "unidade": "Litros (L)",
+                "frequencia": "Mensal",
+                "periodo": "Ano de 2024",
+                "responsavel": "INFRAUFS / DITRAN"
+              },
+              {
+                "dado": "Consumo de diesel (frota UFS)",
+                "categoria": "Transporte",
+                "unidade": "Litros (L)",
+                "frequencia": "Mensal",
+                "periodo": "Ano de 2024",
+                "responsavel": "INFRAUFS / DITRAN"
+              },
+              {
+                "dado": "Número de refeições servidas",
+                "categoria": "Alimentos",
+                "unidade": "Unidade",
+                "frequencia": "Mensal",
+                "periodo": "Ano de 2024",
+                "responsavel": "Restaurante Universitário (RESUN)"
+              },
+              {
+                "dado": "Quantidade total de resíduos sólidos coletados",
+                "categoria": "Resíduos",
+                "unidade": "Toneladas (t) ou kg",
+                "frequencia": "Mensal",
+                "periodo": "Ano de 2024",
+                "responsavel": "Prefeitura Universitária (PREFE) / Divisão de Gestão Ambiental"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "4.4",
+        "titulo": "Base de Cálculo",
+        "conteudo": [
+          "A metodologia fundamenta-se nos princípios estabelecidos por Wackernagel e Rees (1996) e nas adaptações propostas por Amaral (2010) e Soares (2015).",
+          "O cálculo foi estruturado em duas etapas interdependentes: 1) Conversão do consumo em emissões de CO2 (ou CO2e); 2) Conversão dessas emissões em área bioprodutiva necessária."
+        ],
+        "equacoes": [
+          {
+            "id": "eq_1",
+            "nome": "Conversão do consumo em emissão de CO2",
+            "formula_latex": "ECO2 = C \\times FECO2",
+            "variaveis": {
+              "ECO2": "emissão de dióxido de carbono (kg CO2)",
+              "C": "consumo total da categoria analisada",
+              "FECO2": "fator de emissão específico da atividade"
+            }
+          },
+          {
+            "id": "eq_1a",
+            "nome": "Conversão de CH4 para CO2 equivalente",
+            "formula_latex": "ECO2e = ECH4 \\times GWPCH4",
+            "variaveis": {
+              "ECO2e": "emissões em dióxido de carbono equivalente",
+              "ECH4": "emissões de metano",
+              "GWPCH4": "potencial de aquecimento global do metano"
+            }
+          },
+          {
+            "id": "eq_2",
+            "nome": "Conversão da emissão de CO2 em área necessária",
+            "formula_latex": "A = \\frac{ECO2}{TAC}",
+            "variaveis": {
+              "A": "área bioprodutiva necessária (ha)",
+              "ECO2": "emissão total de dióxido de carbono",
+              "TAC": "taxa média de absorção de carbono (6.270 kg CO2/ha/ano)"
+            }
+          },
+          {
+            "id": "eq_3",
+            "nome": "Conversão de hectares em hectares globais",
+            "formula_latex": "PE = A \\times EQF",
+            "variaveis": {
+              "PE": "Pegada Ecológica expressa em hectares globais (gha)",
+              "A": "área bioprodutiva estimada",
+              "EQF": "fator de equivalência"
+            }
+          }
+        ],
+        "tabelas": [
+          {
+            "id": "tabela_5",
+            "titulo": "Fatores de emissão de CO2 utilizados no cálculo da Pegada Ecológica (UFS, 2024)",
+            "dados": [
+              {
+                "categoria": "Energia elétrica (SIN)",
+                "fator_emissao": "0,0545 kg CO2/kWh",
+                "unidade_consumo": "kWh",
+                "fonte": "MME/SIN. Adaptado pelo autor (2025)."
+              },
+              {
+                "categoria": "Água tratada e distribuída",
+                "fator_emissao": "0,3440 kg CO2/m³",
+                "unidade_consumo": "m³",
+                "fonte": "IPCC (2006; 2019); Inventários nacionais de GEE (MCTI)."
+              },
+              {
+                "categoria": "Papel A4 (fibra virgem)",
+                "fator_emissao": "1,840 kg CO2/kg",
+                "unidade_consumo": "kg de papel",
+                "fonte": "Tabela de conversão de papel A4."
+              },
+              {
+                "categoria": "Papel A4 (reciclado)",
+                "fator_emissao": "0,610 kg CO2/kg",
+                "unidade_consumo": "kg de papel",
+                "fonte": "Tabela de conversão de papel A4."
+              },
+              {
+                "categoria": "Áreas construídas (carbono incorporado)",
+                "fator_emissao": "520 kg CO2/m²",
+                "unidade_consumo": "m² construído",
+                "fonte": "Amaral (2010)."
+              },
+              {
+                "categoria": "Combustível - Gasolina automotiva",
+                "fator_emissao": "2,21 kg CO2/L",
+                "unidade_consumo": "L",
+                "fonte": "CentroClima/COPPE/UFRJ; IPCC (2006; 2019)."
+              },
+              {
+                "categoria": "Combustível - Diesel",
+                "fator_emissao": "2,63 kg CO2/L",
+                "unidade_consumo": "L",
+                "fonte": "CentroClima/COPPE/UFRJ; IPCC (2006; 2019)."
+              },
+              {
+                "categoria": "Refeições institucionais (padrão mista)",
+                "fator_emissao": "2,00 kg CO2/refeição",
+                "unidade_consumo": "refeição",
+                "fonte": "Poore & Nemecek (2018); FAO (2013)."
+              },
+              {
+                "categoria": "Resíduos sólidos urbanos destinados a aterro sanitário",
+                "fator_emissao": "1,200 tCO2/t",
+                "unidade_consumo": "t de resíduo",
+                "fonte": "IPCC (2006; 2019); WRI; WBCSD (2004)."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
