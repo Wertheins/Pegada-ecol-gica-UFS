@@ -1,63 +1,80 @@
-﻿const CATEGORY_SEED = [
+const CATEGORY_SEED = [
   {
     name: "Energia elétrica",
     fe: 0.0545,
     unit: "kWh/ano",
-    method:
-      "Fator implícito das emissões institucionais 2024 (matriz elétrica brasileira).",
+    method: "MME/SIN. Adaptado na metodologia (2025).",
+    hasUsefulLife: false,
+    lifeSpan: "",
   },
   {
     name: "Água",
-    fe: 0.5,
+    fe: 0.344,
     unit: "m³/ano",
-    method: "Amaral (2010) - USC.",
+    method: "IPCC (2006; 2019) e inventários nacionais de GEE (MCTI).",
+    hasUsefulLife: false,
+    lifeSpan: "",
   },
   {
     name: "Papel virgem",
     fe: 1.84,
     unit: "kg/ano",
-    method: "USC (apud Amaral, 2010; Soares, 2015).",
+    method: "Tabela de conversão de papel A4.",
+    hasUsefulLife: false,
+    lifeSpan: "",
   },
   {
     name: "Papel reciclado",
     fe: 0.61,
     unit: "kg/ano",
-    method: "USC (apud Amaral, 2010; Soares, 2015).",
-  },
-  {
-    name: "Diesel",
-    fe: 2.671,
-    unit: "L/ano",
-    method: "MMA (2011) / Soares (2015).",
-  },
-  {
-    name: "Gasolina",
-    fe: 2.269,
-    unit: "L/ano",
-    method: "MMA (2011) / Soares (2015).",
-  },
-  {
-    name: "Etanol",
-    fe: 1.178,
-    unit: "L/ano",
-    method: "MMA (2011) / Soares (2015).",
-  },
-  {
-    name: "Resíduos sólidos (aterro comum)",
-    fe: "",
-    unit: "kg/ano",
-    method: "IPCC / literatura específica (ajuste o FE conforme o resíduo).",
+    method: "Tabela de conversão de papel A4.",
+    hasUsefulLife: false,
+    lifeSpan: "",
   },
   {
     name: "Áreas construídas",
     fe: 520,
     unit: "m²",
-    method: "USC (apud Amaral, 2010).",
+    method: "Amaral (2010).",
+    hasUsefulLife: true,
+    lifeSpan: "50",
+  },
+  {
+    name: "Gasolina",
+    fe: 2.21,
+    unit: "L/ano",
+    method: "CentroClima/COPPE/UFRJ; IPCC (2006; 2019).",
+    hasUsefulLife: false,
+    lifeSpan: "",
+  },
+  {
+    name: "Diesel",
+    fe: 2.63,
+    unit: "L/ano",
+    method: "CentroClima/COPPE/UFRJ; IPCC (2006; 2019).",
+    hasUsefulLife: false,
+    lifeSpan: "",
+  },
+  {
+    name: "Refeições institucionais",
+    fe: 2,
+    unit: "refeições/ano",
+    method: "Poore & Nemecek (2018); FAO (2013).",
+    hasUsefulLife: false,
+    lifeSpan: "",
+  },
+  {
+    name: "Resíduos sólidos (aterro sanitário)",
+    fe: 1200,
+    unit: "t/ano",
+    method: "IPCC (2006; 2019); WRI; WBCSD (2004).",
+    hasUsefulLife: false,
+    lifeSpan: "",
   },
 ];
 
 const STORAGE_KEY = "pegada-ecologica-state-v1";
-const STORAGE_SCHEMA = 1;
+const STORAGE_SCHEMA = 2;
 
 const categoriesBody = document.getElementById("categoriesBody");
 const addCategoryButton = document.getElementById("addCategoryButton");
@@ -123,6 +140,14 @@ const parseFieldNumber = (value) => {
   return Number(raw);
 };
 
+const normalizeText = (value) =>
+  String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+
+const isBuiltAreaCategoryName = (name) => normalizeText(name).includes("area construida");
+
 const safePositive = (value, fallback) => {
   const numeric = parseFieldNumber(value);
   return Number.isFinite(numeric) && numeric > 0 ? numeric : fallback;
@@ -146,18 +171,22 @@ const computeRow = (category, absorptionFactor, equivalenceFactor) => {
   const enabled = Boolean(category.enabled);
   const consumption = parseFieldNumber(category.consumption);
   const fe = parseFieldNumber(category.fe);
+  const hasUsefulLife = Boolean(category.hasUsefulLife);
+  const lifeSpan = parseFieldNumber(category.lifeSpan);
 
   if (
     !enabled ||
     !Number.isFinite(consumption) ||
     consumption <= 0 ||
     !Number.isFinite(fe) ||
-    fe <= 0
+    fe <= 0 ||
+    (hasUsefulLife && (!Number.isFinite(lifeSpan) || lifeSpan <= 0))
   ) {
     return { kg: 0, ton: 0, area: 0, gha: 0, valid: false };
   }
 
-  const kg = consumption * fe;
+  const annualizationDivisor = hasUsefulLife ? lifeSpan : 1;
+  const kg = (consumption * fe) / annualizationDivisor;
   const ton = kg / 1000;
   const area = ton / absorptionFactor;
   const gha = area * equivalenceFactor;
@@ -227,6 +256,11 @@ const collectComputation = () => {
 const rowTemplate = (category, metrics, index) => {
   const deleteDisabled = category.custom ? "" : "disabled";
   const deleteLabel = category.custom ? "Remover" : "Padrão";
+  const usefulLifeCell = category.hasUsefulLife
+    ? `<input class="row-life" data-index="${index}" type="text" inputmode="decimal" value="${escapeAttr(
+        category.lifeSpan
+      )}" placeholder="50" />`
+    : '<span class="muted-cell">-</span>';
 
   return `
     <tr data-id="${escapeAttr(category.id)}">
@@ -243,6 +277,7 @@ const rowTemplate = (category, metrics, index) => {
     category.consumption
   )}" placeholder="0" />
       </td>
+      <td>${usefulLifeCell}</td>
       <td>
         <input class="row-unit" data-index="${index}" type="text" value="${escapeAttr(category.unit)}" />
       </td>
@@ -307,15 +342,45 @@ const updateWarnings = () => {
     );
   });
 
-  if (missingFe.length === 0) {
+  const invalidUsefulLife = categories.filter((category) => {
+    const consumption = parseFieldNumber(category.consumption);
+    const fe = parseFieldNumber(category.fe);
+    const lifeSpan = parseFieldNumber(category.lifeSpan);
+    return (
+      category.enabled &&
+      category.hasUsefulLife &&
+      Number.isFinite(consumption) &&
+      consumption > 0 &&
+      Number.isFinite(fe) &&
+      fe > 0 &&
+      (!Number.isFinite(lifeSpan) || lifeSpan <= 0)
+    );
+  });
+
+  if (missingFe.length === 0 && invalidUsefulLife.length === 0) {
     warningBox.hidden = true;
     warningBox.textContent = "";
     return;
   }
 
   warningBox.hidden = false;
-  const names = missingFe.map((category) => category.name).join(", ");
-  warningBox.textContent = `As categorias ${names} possuem consumo informado, mas FE inválido ou vazio. Elas não entraram no total até o FE ser corrigido.`;
+  const messages = [];
+
+  if (missingFe.length > 0) {
+    const names = missingFe.map((category) => category.name).join(", ");
+    messages.push(
+      `As categorias ${names} possuem consumo informado, mas FE inválido ou vazio. Elas não entraram no total até o FE ser corrigido.`
+    );
+  }
+
+  if (invalidUsefulLife.length > 0) {
+    const names = invalidUsefulLife.map((category) => category.name).join(", ");
+    messages.push(
+      `As categorias ${names} possuem consumo e FE válidos, mas vida útil inválida. Corrija a vida útil (anos) para incluir essas categorias no total.`
+    );
+  }
+
+  warningBox.textContent = messages.join(" ");
 };
 
 const setSaveInfo = (message, isError = false) => {
@@ -332,6 +397,9 @@ const toSerializableCategory = (category) => ({
   enabled: Boolean(category.enabled),
   consumption: category.consumption,
   custom: Boolean(category.custom),
+  hasUsefulLife: Boolean(category.hasUsefulLife),
+  lifeSpan:
+    category.lifeSpan === null || category.lifeSpan === undefined ? "" : category.lifeSpan,
 });
 
 const buildSnapshot = () => ({
@@ -352,6 +420,10 @@ const normalizeCategory = (rawCategory, index) => {
     typeof rawCategory?.name === "string" && rawCategory.name.trim()
       ? rawCategory.name.trim()
       : fallbackName;
+  const hasUsefulLife =
+    typeof rawCategory?.hasUsefulLife === "boolean"
+      ? rawCategory.hasUsefulLife
+      : isBuiltAreaCategoryName(name);
 
   return {
     id:
@@ -377,7 +449,52 @@ const normalizeCategory = (rawCategory, index) => {
         ? ""
         : rawCategory.consumption,
     custom: typeof rawCategory?.custom === "boolean" ? rawCategory.custom : true,
+    hasUsefulLife,
+    lifeSpan:
+      rawCategory?.lifeSpan === null || rawCategory?.lifeSpan === undefined || rawCategory.lifeSpan === ""
+        ? hasUsefulLife
+          ? "50"
+          : ""
+        : rawCategory.lifeSpan,
   };
+};
+
+const mergeLegacyWithMethodology = (rawCategories) => {
+  const normalizedLegacy = Array.isArray(rawCategories)
+    ? rawCategories.map((category, index) => normalizeCategory(category, index))
+    : [];
+
+  const legacyByName = new Map(
+    normalizedLegacy.map((category) => [normalizeText(category.name), category])
+  );
+
+  const migratedDefaults = CATEGORY_SEED.map((seed, index) => {
+    const key = normalizeText(seed.name);
+    const legacy = legacyByName.get(key);
+    return normalizeCategory(
+      {
+        ...seed,
+        id:
+          typeof legacy?.id === "string" && legacy.id.trim()
+            ? legacy.id
+            : createId(),
+        enabled: legacy?.enabled !== false,
+        consumption:
+          legacy?.consumption === null || legacy?.consumption === undefined
+            ? ""
+            : legacy.consumption,
+        custom: false,
+        lifeSpan:
+          legacy?.lifeSpan === null || legacy?.lifeSpan === undefined || legacy.lifeSpan === ""
+            ? seed.lifeSpan ?? ""
+            : legacy.lifeSpan,
+      },
+      index
+    );
+  });
+
+  const customLegacy = normalizedLegacy.filter((category) => category.custom);
+  return [...migratedDefaults, ...customLegacy];
 };
 
 const applySnapshot = (snapshot) => {
@@ -385,6 +502,12 @@ const applySnapshot = (snapshot) => {
     snapshot && typeof snapshot === "object" && snapshot.state && typeof snapshot.state === "object"
       ? snapshot.state
       : snapshot;
+  const snapshotSchema =
+    snapshot && typeof snapshot === "object" && snapshot.schema !== undefined
+      ? Number(snapshot.schema)
+      : source && typeof source === "object" && source.schema !== undefined
+        ? Number(source.schema)
+        : NaN;
 
   if (!source || typeof source !== "object") return false;
 
@@ -400,7 +523,10 @@ const applySnapshot = (snapshot) => {
   if (source.useGha !== undefined) useGhaInput.checked = Boolean(source.useGha);
 
   if (Array.isArray(source.categories) && source.categories.length > 0) {
-    categories = source.categories.map(normalizeCategory);
+    categories =
+      Number.isFinite(snapshotSchema) && snapshotSchema >= STORAGE_SCHEMA
+        ? source.categories.map((category, index) => normalizeCategory(category, index))
+        : mergeLegacyWithMethodology(source.categories);
   } else {
     categories = buildDefaultCategories();
   }
@@ -493,6 +619,10 @@ document.addEventListener("input", (event) => {
     updateCategory(index, "fe", target.value);
     return;
   }
+  if (hasIndex && target.classList.contains("row-life") && target instanceof HTMLInputElement) {
+    updateCategory(index, "lifeSpan", target.value);
+    return;
+  }
   if (hasIndex && target.classList.contains("row-method") && target instanceof HTMLInputElement) {
     updateCategory(index, "method", target.value.trim() || "Base metodológica não informada.");
     return;
@@ -539,6 +669,8 @@ addCategoryButton.addEventListener("click", () => {
     enabled: true,
     consumption: "",
     custom: true,
+    hasUsefulLife: false,
+    lifeSpan: "",
   });
   render();
 });
@@ -566,9 +698,14 @@ const buildExcelCategoryRows = (computation) =>
   computation.rows.map((row) => ({
     Categoria: row.category.name,
     Ativa: row.category.enabled ? "Sim" : "Não",
-    "Consumo anual": row.category.consumption === "" ? "" : Number(row.category.consumption),
+    "Consumo anual":
+      row.category.consumption === "" ? "" : parseFieldNumber(row.category.consumption),
+    "Vida útil (anos)": row.category.hasUsefulLife
+      ? parseFieldNumber(row.category.lifeSpan) || ""
+      : "",
     Unidade: row.category.unit,
-    "Fator de emissão (kg CO₂/unidade)": row.category.fe === "" ? "" : Number(row.category.fe),
+    "Fator de emissão (kg CO₂/unidade)":
+      row.category.fe === "" ? "" : parseFieldNumber(row.category.fe),
     "Emissão (kg CO₂)": row.metrics.kg,
     "Emissão (t CO₂)": row.metrics.ton,
     "Área (ha/ano)": row.metrics.area,

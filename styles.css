@@ -268,7 +268,7 @@ button.ghost:hover {
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 1220px;
+  min-width: 1320px;
 }
 
 th,
@@ -307,6 +307,7 @@ td output {
 
 .row-input,
 .row-fe,
+.row-life,
 .row-unit,
 .row-method,
 .row-name {
@@ -328,6 +329,15 @@ td output {
 
 .row-unit {
   width: 140px;
+}
+
+.row-life {
+  width: 96px;
+}
+
+.muted-cell {
+  color: #7b8dad;
+  font-weight: 700;
 }
 
 .remove-btn {
