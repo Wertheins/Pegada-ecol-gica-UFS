@@ -264,36 +264,36 @@ const rowTemplate = (category, metrics, index) => {
 
   return `
     <tr data-id="${escapeAttr(category.id)}">
-      <td>
+      <td data-label="Ativar">
         <input class="row-enabled" data-index="${index}" type="checkbox" ${
     category.enabled ? "checked" : ""
   } />
       </td>
-      <td>
+      <td data-label="Categoria">
         <input class="row-name" data-index="${index}" type="text" value="${escapeAttr(category.name)}" />
       </td>
-      <td>
+      <td data-label="Consumo anual">
         <input class="row-input" data-index="${index}" type="text" inputmode="decimal" value="${escapeAttr(
     category.consumption
   )}" placeholder="0" />
       </td>
-      <td>${usefulLifeCell}</td>
-      <td>
+      <td data-label="Vida útil (anos)">${usefulLifeCell}</td>
+      <td data-label="Unidade">
         <input class="row-unit" data-index="${index}" type="text" value="${escapeAttr(category.unit)}" />
       </td>
-      <td>
+      <td data-label="FE">
         <input class="row-fe" data-index="${index}" type="text" inputmode="decimal" value="${escapeAttr(
     category.fe
   )}" placeholder="FE" />
       </td>
-      <td><output>${formatNumber(metrics.kg, 4)}</output></td>
-      <td><output>${formatNumber(metrics.ton, 6)}</output></td>
-      <td><output>${formatNumber(metrics.area, 6)}</output></td>
-      <td><output>${formatNumber(metrics.gha, 6)}</output></td>
-      <td>
+      <td data-label="Emissão (kg CO₂)"><output>${formatNumber(metrics.kg, 4)}</output></td>
+      <td data-label="Emissão (t CO₂)"><output>${formatNumber(metrics.ton, 6)}</output></td>
+      <td data-label="Área (ha/ano)"><output>${formatNumber(metrics.area, 6)}</output></td>
+      <td data-label="Pegada (gha/ano)"><output>${formatNumber(metrics.gha, 6)}</output></td>
+      <td data-label="Base metodológica">
         <input class="row-method" data-index="${index}" type="text" value="${escapeAttr(category.method)}" />
       </td>
-      <td>
+      <td data-label="Ação">
         <button class="remove-btn" data-index="${index}" type="button" ${deleteDisabled}>${deleteLabel}</button>
       </td>
     </tr>
